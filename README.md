@@ -2,7 +2,7 @@
 etcd cookbook - installs coreos/etcd on centos/ubuntu boxen
 
 ## Supported Platforms
-Centos/rhat 6+ & ubuntu with upstart
+Centos/rhat 6+ & ubuntu with upstart or systemd
 
 ## Recipes
 | Name | Description |

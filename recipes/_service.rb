@@ -14,11 +14,23 @@ if node[:platform_family] == 'rhel' && node[:platform_version].to_i >= 7
   upstart = false
   init_provider = Chef::Provider::Service::Systemd
 end
+
+if node[:platform] == 'ubuntu' && node[:platform_version].split('.').
+                                       first.to_i >= 15
+  systemd = true
+  upstart = false
+  init_provider = Chef::Provider::Service::Systemd
+end
+
+breakpoint 'after ubuntu'
+
 if node[:platform] == 'debian'
   init_provider = Chef::Provider::Service::Init::Debian
   init = true
   upstart = false
 end
+
+breakpoint 'after debian'
 
 directory File.dirname node[:etcd][:state_dir] do
   user node[:etcd][:user]
