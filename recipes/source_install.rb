@@ -45,7 +45,7 @@ bash 'compile_etcd' do
   cwd "#{Chef::Config[:file_cache_path]}/etcd"
   code <<-EOH
   ./build
-  mv etcd /usr/local/bin/
+  mv ./bin/etcd /usr/local/bin/
   EOH
 end
 
@@ -54,6 +54,6 @@ bash 'compile_etcdctl' do
   cwd "#{Chef::Config[:file_cache_path]}/etcdctl"
   code <<-EOH
   ./build
-  mv etcdctl /usr/local/bin/
+  mv ./bin/etcdctl /usr/local/bin/
   EOH
 end
