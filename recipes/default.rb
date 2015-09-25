@@ -10,6 +10,9 @@ group node[:etcd][:user] do
   members node[:etcd][:user]
 end
 
+# give the lib our node
+Etcd.node = node
+
 case node[:etcd][:install_method]
 when 'binary'
   include_recipe 'etcd::binary_install'
