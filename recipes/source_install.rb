@@ -32,13 +32,6 @@ git "#{Chef::Config[:file_cache_path]}/etcd" do
   notifies :run, 'bash[compile_etcd]'
 end
 
-git "#{Chef::Config[:file_cache_path]}/etcdctl" do
-  repository node[:etcdctl][:source][:repo]
-  reference node[:etcdctl][:source][:revision]
-  action :sync
-  notifies :run, 'bash[compile_etcdctl]'
-end
-
 # build and 'install'
 bash 'compile_etcd' do
   user 'root'
@@ -46,14 +39,8 @@ bash 'compile_etcd' do
   code <<-EOH
   ./build
   mv ./bin/etcd /usr/local/bin/
+  mv ./bin/etcdctl /usr/local/bin
   EOH
-end
 
-bash 'compile_etcdctl' do
-  user 'root'
-  cwd "#{Chef::Config[:file_cache_path]}/etcdctl"
-  code <<-EOH
-  ./build
-  mv ./bin/etcdctl /usr/local/bin/
-  EOH
+  not_if "type etcd && type etcdctl"
 end
