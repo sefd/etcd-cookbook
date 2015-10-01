@@ -5,24 +5,7 @@
 #
 
 include_recipe 'git'
-
-if node[:platform_family] == 'debian'
-  package "golang"
-else
-  # install go
-  version = node[:etcd][:source][:go_ver]
-  arch = node[:kernel][:machine] =~ /x86_64/ ? 'amd64' : 'i386'
-  package = "go#{version}.linux-#{arch}.tar.gz"
-  url = "https://go.googlecode.com/files/#{package}"
-  url = node[:etcd][:source][:go_url] if node[:etcd][:source][:go_url]
-
-  ark 'go' do
-  version node[:etcd][:source][:go_ver]
-  url url
-  append_env_path true
-  action :nothing
-  end.run_action(:install)
-end
+include_recipe 'golang'
 
 # checkout from git
 git "#{Chef::Config[:file_cache_path]}/etcd" do
